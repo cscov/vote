@@ -11,12 +11,13 @@ class AddressesController < ApplicationController
   def create
     street_address = params[:street_address]
     zip_code = params[:zip_code]
-
     full_address = AddressHandler.new(street_address, zip_code)
 
     @address = Address.new(address_params)
+
     @address.update_attributes(house_number: full_address.house_number)
-    debugger
+    @address.update_attributes(street_name: full_address.street_name)
+
     if @address.save
       p "address saved"
     else
