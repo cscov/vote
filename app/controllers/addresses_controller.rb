@@ -17,6 +17,7 @@ class AddressesController < ApplicationController
 
     @address.update_attributes(house_number: full_address.house_number)
     @address.update_attributes(street_name: full_address.street_name)
+    @address.update_attributes(street_type: full_address.street_type)
 
     if @address.save
       p "address saved"
