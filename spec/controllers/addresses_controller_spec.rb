@@ -13,6 +13,7 @@ RSpec.describe AddressesController, :type => :controller do
       }
       before do
         post 'create', params: valid_params
+        # need tests for predirection, unit type, unit number, county, zip_4
       end
       it 'creates a new address model with the house number saved' do
         expect(assigns(:address).house_number).to eq '1600'
