@@ -7,14 +7,22 @@ class Address < ApplicationRecord
                                                      numbers" }
 
   # check that street name is only letters, at least 2 char
-  validates :street_name, presence: true
+  validates :street_name, format: { with: /[A-Za-z]{2,}/, message: "only
+  letters are allowed" }
 
-  # check that street type is at least one char
-  validates :street_type, presence: true
+  # check that street type is at least two chars
+  validates :street_type, format: { with: /[A-Za-z]{2,}/, message: "Must
+  be at least two letters" }
 
   # check street predirection is included in directions if present
+  validates :street_predirection, inclusion: { in: %w('' N S E W NE SE NW SW),
+                                               message: "must be a valid
+                                               cardinal direction" }
 
   # check street post direction is included in directions if present
+  validates :street_postdirection, inclusion: { in: %w('' N S E W NE SE NW SW),
+                                                message: "must be a valid 
+                                               cardinal direction" }
 
   # unit number can't be blank
 
@@ -34,7 +42,7 @@ class Address < ApplicationRecord
   # zip_5 must be five char, only numbers
   validates :zip_5, format: { with: /[0-9]{5}/, message: "must be at least
   five digits" }
-  
+
   # zip 4 must be 4 char, only numbers
 
   def to_s
