@@ -26,25 +26,28 @@ class AddressHandler
     street_address_arr = street_address.split
 
     if street_address_arr[1].length <= 2 #predirection
-      street_address_arr[2]
+      street_address_arr[2].capitalize!
     else
-      street_address_arr[1]
+      street_address_arr[1].capitalize!
     end
   end
 
   def parse_street_type(street_address)
     street_address_arr = street_address.split
     if street_address_arr[1].length <= 2 #predirection
-      street_address_arr[3]
+      street_address_arr[3].capitalize!
     else
-      street_address_arr[2]
+      street_address_arr[2].capitalize!
     end
   end
 
   def parse_predirection(street_address)
     street_address_arr = street_address.split
-    if street_address_arr[1].length <= 2 #predirection
-      street_address_arr[1]
+    directions = %w(N S E W NE NW SE SW)
+
+    if street_address_arr[1].length <= 2 && #predirection
+      directions.include?(street_address_arr[1].upcase!)
+      street_address_arr[1].upcase!
     else
       return ""
     end
@@ -57,8 +60,8 @@ class AddressHandler
     if street_address_arr[1].length <= 2 #predirection
       return ""
     elsif street_address_arr[1].length != 2 &&
-          directions.include?(street_address_arr[3]) #postdirection
-      street_address_arr[3]
+          directions.include?(street_address_arr[3].upcase!) #postdirection
+      street_address_arr[3].upcase!
     else
       return ""
     end
@@ -81,12 +84,12 @@ class AddressHandler
     end
     if street_address_arr[1].length <= 2 && #predirection
       street_address_arr.length > 4
-      street_address_arr[5]
+      street_address_arr[5].upcase!
     elsif street_address_arr[1].length != 2 &&
           street_address_arr.length > 4 #postdirection
-      street_address_arr[5]
+      street_address_arr[5].upcase!
     elsif street_address_arr.length > 3 #no pre or post direction
-      street_address_arr[4]
+      street_address_arr[4].upcase!
     else
       return ""
     end
@@ -102,9 +105,9 @@ class AddressHandler
     end
     if street_address_arr.length > 4
       if street_address_arr[1].length <= 2 || street_address_arr[3].length <= 2
-        street_address_arr[4]
+        street_address_arr[4].capitalize!
       else
-        street_address_arr[3]
+        street_address_arr[3].capitalize!
       end
     else
       return ""
