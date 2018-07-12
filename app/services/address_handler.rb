@@ -100,8 +100,6 @@ class AddressHandler
       street_address = normalize_unit_type(street_address)
       street_address_arr = street_address.split
     end
-    # 1600 pen ave N apt 3
-    # 1600 pen ave apt 3
     if street_address_arr.length > 4
       if street_address_arr[1].length <= 2 || street_address_arr[3].length <= 2
         street_address_arr[4]
