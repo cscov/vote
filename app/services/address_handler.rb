@@ -1,3 +1,4 @@
+require "byebug" # delete
 class AddressHandler
   attr_reader :house_number, :street_name, :street_type, :predirection,
               :post_direction, :unit_number, :unit_type, :zip_5, :zip_4,
@@ -16,52 +17,63 @@ class AddressHandler
     @county = determine_county(@zip_5)
   end
 
+  def street_address_error(street_address)
+    if street_address.length < 3
+      raise "Must include house number, street name, and street type"
+    end
+  end
+
   def parse_house_number(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
 
     street_address_arr[0]
   end
 
   def parse_street_name(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
-
     if street_address_arr[1].length <= 2 #predirection
-      street_address_arr[2].capitalize!
+      street_address_arr[2].capitalize
     else
-      street_address_arr[1].capitalize!
+      street_address_arr[1].capitalize
     end
   end
 
   def parse_street_type(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
     if street_address_arr[1].length <= 2 #predirection
-      street_address_arr[3].capitalize!
+      street_address_arr[3].capitalize
     else
-      street_address_arr[2].capitalize!
+      street_address_arr[2].capitalize
     end
   end
 
   def parse_predirection(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
     if street_address_arr[1].length <= 2 && #predirection
-      directions.include?(street_address_arr[1].upcase!)
-      street_address_arr[1].upcase!
+      directions.include?(street_address_arr[1].upcase)
+      street_address_arr[1].upcase
     else
       return ""
     end
   end
 
   def parse_post_direction(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
     if street_address_arr[1].length <= 2 #predirection
       return ""
     elsif street_address_arr[1].length != 2 &&
-          directions.include?(street_address_arr[3].upcase!) #postdirection
-      street_address_arr[3].upcase!
+          street_address_arr[3] &&
+          directions.include?(street_address_arr[3].upcase) #postdirection
+      street_address_arr[3].upcase
     else
       return ""
     end
@@ -69,12 +81,14 @@ class AddressHandler
 
   # in case "#" is used rather than "Apt"
   def normalize_unit_type(street_address)
+    street_address_error(street_address)
     change_idx = street_address.index("#")
     street_address.delete!("#")
     street_address.insert(change_idx - 1, "Apt ")
   end
 
   def parse_unit_number(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
     denormalized = street_address_arr.any? { |word| word.start_with?("#") }
 
@@ -84,18 +98,19 @@ class AddressHandler
     end
     if street_address_arr[1].length <= 2 && #predirection
       street_address_arr.length > 4
-      street_address_arr[5].upcase!
-    elsif street_address_arr[1].length != 2 &&
+      street_address_arr[5].upcase
+    elsif street_address_arr[3].length <= 2 &&
           street_address_arr.length > 4 #postdirection
-      street_address_arr[5].upcase!
-    elsif street_address_arr.length > 3 #no pre or post direction
-      street_address_arr[4].upcase!
+      street_address_arr[5].upcase
+    elsif street_address_arr.length > 4 #no pre or post direction
+      street_address_arr[4].upcase
     else
       return ""
     end
   end
 
   def parse_unit_type(street_address)
+    street_address_error(street_address)
     street_address_arr = street_address.split
     denormalized = street_address_arr.any? { |word| word.start_with?("#") }
 
@@ -105,9 +120,9 @@ class AddressHandler
     end
     if street_address_arr.length > 4
       if street_address_arr[1].length <= 2 || street_address_arr[3].length <= 2
-        street_address_arr[4].capitalize!
+        street_address_arr[4].capitalize
       else
-        street_address_arr[3].capitalize!
+        street_address_arr[3].capitalize
       end
     else
       return ""

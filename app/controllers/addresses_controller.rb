@@ -29,7 +29,7 @@ class AddressesController < ApplicationController
     if @address.save
       p "address saved"
     else
-      render @address.errors.full_messages
+      flash[:errors] = @address.errors.full_messages
     end
     render 'new'
   end

@@ -1,3 +1,7 @@
+<% flash[:errors].try(:each) do |err| %>
+  <%= err %>
+<% end %>
+
 <%= form_tag '/addresses', method: :post do %>
     <div>
       <%= label_tag :street_address %>
