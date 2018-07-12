@@ -21,6 +21,10 @@ class AddressesController < ApplicationController
     @address.update_attributes(street_predirection: full_address.predirection)
     @address.update_attributes(street_postdirection: full_address.post_direction)
     @address.update_attributes(unit_number: full_address.unit_number)
+    @address.update_attributes(unit_type: full_address.unit_type)
+    @address.update_attributes(county: full_address.county)
+    @address.update_attributes(zip_5: full_address.zip_5)
+    @address.update_attributes(zip_4: full_address.zip_4)
 
     if @address.save
       p "address saved"

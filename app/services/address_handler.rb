@@ -1,6 +1,7 @@
 class AddressHandler
   attr_reader :house_number, :street_name, :street_type, :predirection,
-              :post_direction, :unit_number, :unit_type
+              :post_direction, :unit_number, :unit_type, :zip_5, :zip_4,
+              :county
 
   def initialize(street_address, zip_code)
     @house_number = parse_house_number(street_address)
@@ -10,6 +11,9 @@ class AddressHandler
     @post_direction = parse_post_direction(street_address)
     @unit_number = parse_unit_number(street_address)
     @unit_type = parse_unit_type(street_address)
+    @zip_5 = parse_zip_5(zip_code)
+    @zip_4 = parse_zip_4(zip_code)
+    @county = determine_county(@zip_5)
   end
 
   def parse_house_number(street_address)
@@ -21,7 +25,7 @@ class AddressHandler
   def parse_street_name(street_address)
     street_address_arr = street_address.split
 
-    if street_address_arr[1].length == 2 #predirection
+    if street_address_arr[1].length <= 2 #predirection
       street_address_arr[2]
     else
       street_address_arr[1]
@@ -30,7 +34,7 @@ class AddressHandler
 
   def parse_street_type(street_address)
     street_address_arr = street_address.split
-    if street_address_arr[1].length == 2 #predirection
+    if street_address_arr[1].length <= 2 #predirection
       street_address_arr[3]
     else
       street_address_arr[2]
@@ -39,7 +43,7 @@ class AddressHandler
 
   def parse_predirection(street_address)
     street_address_arr = street_address.split
-    if street_address_arr[1].length == 2 #predirection
+    if street_address_arr[1].length <= 2 #predirection
       street_address_arr[1]
     else
       return ""
@@ -50,7 +54,7 @@ class AddressHandler
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
-    if street_address_arr[1].length == 2 #predirection
+    if street_address_arr[1].length <= 2 #predirection
       return ""
     elsif street_address_arr[1].length != 2 &&
           directions.include?(street_address_arr[3]) #postdirection
@@ -75,8 +79,7 @@ class AddressHandler
       street_address = normalize_unit_type(street_address)
       street_address_arr = street_address.split
     end
-
-    if street_address_arr[1].length == 2 && #predirection
+    if street_address_arr[1].length <= 2 && #predirection
       street_address_arr.length > 4
       street_address_arr[5]
     elsif street_address_arr[1].length != 2 &&
@@ -90,11 +93,39 @@ class AddressHandler
   end
 
   def parse_unit_type(street_address)
-    # 1600 pen ave apt 3
-    # 1600 pen ave #3
-    # 1600 N pen ave apt 3
-    # 1600 N pen ave #3
+    street_address_arr = street_address.split
+    denormalized = street_address_arr.any? { |word| word.start_with?("#") }
+
+    if denormalized
+      street_address = normalize_unit_type(street_address)
+      street_address_arr = street_address.split
+    end
     # 1600 pen ave N apt 3
-    # 1600 pen ave N #3
+    # 1600 pen ave apt 3
+    if street_address_arr.length > 4
+      if street_address_arr[1].length <= 2 || street_address_arr[3].length <= 2
+        street_address_arr[4]
+      else
+        street_address_arr[3]
+      end
+    else
+      return ""
+    end
+  end
+
+  def determine_county(zip)
+    ""
+  end
+
+  def parse_zip_5(zip)
+    zip.slice(0, 5)
+  end
+
+  def parse_zip_4(zip)
+    if zip.length > 5
+      zip.slice(6, 4)
+    else
+      ""
+    end
   end
 end
