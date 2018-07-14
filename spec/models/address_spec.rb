@@ -121,6 +121,17 @@ RSpec.describe Address, :type => :model do
           state: 'DC',
           zip_5: '12345'
        )).not_to be_valid
+
+       # check that unit_type is either # or Apt
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Bpt',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
       end
 
 
