@@ -1,4 +1,5 @@
 require "byebug" # delete
+
 class AddressHandler
   attr_reader :house_number, :street_name, :street_type, :predirection,
               :post_direction, :unit_number, :unit_type, :zip_5, :zip_4,
@@ -84,7 +85,9 @@ class AddressHandler
     street_address_error(street_address)
     change_idx = street_address.index("#")
     street_address.delete!("#")
-    street_address.insert(change_idx - 1, "Apt ")
+    street_address.insert(change_idx - 1, " Apt")
+
+    street_address
   end
 
   def parse_unit_number(street_address)

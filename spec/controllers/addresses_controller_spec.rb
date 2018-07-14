@@ -29,6 +29,15 @@ RSpec.describe AddressesController, :type => :controller do
           zip_code: '94131'
         }
       }
+
+      let(:valid_params_unit_type2) {
+        {
+          street_address: '123 Main St #1A',
+          city: 'San Francisco',
+          state: 'CA',
+          zip_code: '94131'
+        }
+      }
       before do
         post 'create', params: valid_params
       end
@@ -67,6 +76,11 @@ RSpec.describe AddressesController, :type => :controller do
 
       it 'creates a new address model with the unit type saved' do
         post 'create', params: valid_params_unit_type1
+        expect(assigns(:address).unit_type).to eq 'Apt'
+      end
+
+      it 'creates a new address model with the unit type normalized and saved' do
+        post 'create', params: valid_params_unit_type2
         expect(assigns(:address).unit_type).to eq 'Apt'
       end
     end
