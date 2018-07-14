@@ -154,6 +154,50 @@ RSpec.describe Address, :type => :model do
           state: 'DC',
           zip_5: '12345'
        )).not_to be_valid
+
+       # state must be valid US state
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 'Washington',
+          state: 'DA',
+          zip_5: '12345'
+       )).not_to be_valid
+
+       # zip_5 should be only numbers
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12A45'
+       )).not_to be_valid
+
+       # zip_4 must be 4 chars
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 'Washington',
+          state: 'DC',
+          zip_4: '123'
+       )).not_to be_valid
+
+       # zip_4 must be only numbers
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 'Washington',
+          state: 'DC',
+          zip_4: '123A'
+       )).not_to be_valid
       end
 
 
