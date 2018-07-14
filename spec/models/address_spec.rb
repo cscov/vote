@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Address, :type => :model do
+  it { should validate_numericality_of(:house_number) }
+
   describe '#new' do
     context 'Given a valid address' do
       it 'can create a new address' do
@@ -37,7 +39,17 @@ RSpec.describe Address, :type => :model do
                           state: 'DC',
                           zip_5: 123
                         )).not_to be_valid
+
+        expect(Address.new(
+          house_number: "",
+          street_name: 'Penn',
+          street_type: 'Ave',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
       end
+
     end
 
     describe '#to_s' do

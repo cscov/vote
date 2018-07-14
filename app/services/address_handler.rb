@@ -34,20 +34,28 @@ class AddressHandler
   def parse_street_name(street_address)
     street_address_error(street_address)
     street_address_arr = street_address.split
-    if street_address_arr[1].length <= 2 #predirection
+    if street_address_arr.length > 2 &&
+      street_address_arr[1].length <= 2 #predirection
+
       street_address_arr[2].capitalize
-    else
+    elsif street_address_arr.length > 1 && street_address_arr[1].length > 2
       street_address_arr[1].capitalize
+    else
+      ""
     end
   end
 
   def parse_street_type(street_address)
     street_address_error(street_address)
     street_address_arr = street_address.split
-    if street_address_arr[1].length <= 2 #predirection
-      street_address_arr[3].capitalize
+    if street_address_arr.length >= 4
+      if street_address_arr[1].length <= 2 #predirection
+        street_address_arr[3].capitalize
+      else
+        street_address_arr[2].capitalize
+      end
     else
-      street_address_arr[2].capitalize
+      ""
     end
   end
 
@@ -56,7 +64,8 @@ class AddressHandler
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
-    if street_address_arr[1].length <= 2 && #predirection
+    if street_address_arr.length > 1 &&
+      street_address_arr[1].length <= 2 && #predirection
       directions.include?(street_address_arr[1].upcase)
       street_address_arr[1].upcase
     else
@@ -69,12 +78,14 @@ class AddressHandler
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
-    if street_address_arr[1].length <= 2 #predirection
-      return ""
-    elsif street_address_arr[1].length != 2 &&
-          street_address_arr[3] &&
-          directions.include?(street_address_arr[3].upcase) #postdirection
-      street_address_arr[3].upcase
+    if street_address_arr[1]
+      if street_address_arr[1].length <= 2 #predirection
+        return ""
+      elsif street_address_arr[1].length != 2 &&
+            street_address_arr[3] &&
+            directions.include?(street_address_arr[3].upcase) #postdirection
+        street_address_arr[3].upcase
+      end
     else
       return ""
     end
@@ -99,14 +110,16 @@ class AddressHandler
       street_address = normalize_unit_type(street_address)
       street_address_arr = street_address.split
     end
-    if street_address_arr[1].length <= 2 && #predirection
-      street_address_arr.length > 4
-      street_address_arr[5].upcase
-    elsif street_address_arr.length > 4 &&
-      street_address_arr[3].length <= 2 #postdirection
-      street_address_arr[5].upcase
-    elsif street_address_arr.length > 4 #no pre or post direction
-      street_address_arr[4].upcase
+    if street_address_arr.length >= 5
+      if street_address_arr[1].length <= 2 && #predirection
+        street_address_arr.length > 4
+        street_address_arr[5].upcase
+      elsif street_address_arr.length > 4 &&
+        street_address_arr[3].length <= 2 #postdirection
+        street_address_arr[5].upcase
+      elsif street_address_arr.length > 4 #no pre or post direction
+        street_address_arr[4].upcase
+      end
     else
       return ""
     end

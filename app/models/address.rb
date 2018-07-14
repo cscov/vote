@@ -2,9 +2,7 @@ require 'byebug' #delete
 
 class Address < ApplicationRecord
   # check that house number is only numbers, can't be blank
-  validates :house_number, presence: true, format: { with: /[0-9]+/,
-                                                     message: "only allows
-                                                     numbers" }
+  validates_numericality_of :house_number
 
   # check that street name is only letters, at least 2 char
   validates :street_name, format: { with: /[A-Za-z]{2,}/, message: "only

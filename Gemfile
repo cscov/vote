@@ -40,6 +40,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'shoulda-matchers' # ADDED
   gem 'database_cleaner'
   gem 'rails-controller-testing'
   gem "factory_bot", "~> 4.0"
