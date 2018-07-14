@@ -132,6 +132,28 @@ RSpec.describe Address, :type => :model do
           state: 'DC',
           zip_5: '12345'
        )).not_to be_valid
+
+       # check that city is only letters
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 12,
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
+
+       # check that city is at least two chars
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 'W',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
       end
 
 
