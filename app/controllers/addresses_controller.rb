@@ -27,16 +27,22 @@ class AddressesController < ApplicationController
     @address.update_attributes(zip_5: full_address.zip_5)
     @address.update_attributes(zip_4: full_address.zip_4)
 
-    google_api = full_address.address_must_be_real(params[:city], params[:state])
-    response = RestClient.get "#{google_api}", { accept: :json }
-    parsed_response = JSON.parse(response)
-    status = parsed_response["status"]
-    zip = parsed_response["results"][0]["address_components"][6]["short_name"]
-
-    if status == "OK" && zip == full_address.zip_5
-      flash[:success] = "Address is valid!"
-    elsif status == "ZERO_RESULTS" || zip != full_address.zip_5 
-      flash[:notice] = "The address is invalid, please try again"
+    if @address.save
+      google_api = full_address.address_must_be_real(params[:city], params[:state])
+      response = RestClient.get "#{google_api}", { accept: :json }
+      parsed_response = JSON.parse(response)
+      status = parsed_response["status"]
+      # debugger
+      if parsed_response["results"][0]["address_components"][6]["short_name"]
+        zip = parsed_response["results"][0]["address_components"][6]["short_name"]
+      else
+        zip = nil
+      end
+        if status == "OK" && zip == full_address.zip_5
+          flash[:success] = "Address is valid!"
+        elsif status == "ZERO_RESULTS" || zip != full_address.zip_5
+          flash[:notice] = "The address is invalid, please try again"
+        end
     else
       flash[:errors] = @address.errors.full_messages
     end

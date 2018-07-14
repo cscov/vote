@@ -1,6 +1,14 @@
-<% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: name %>
-    <% end %>
+<% flash[:errors].try(:each) do |err| %>
+  <%= err %>
+<% end %>
+
+<% flash[:success].try(:each) do |note| %>
+<%= note %>
+<% end %>
+
+<% flash[:notice].try(:each) do |note| %>
+<%= note %>
+<% end %>
 
 <%= form_tag '/addresses', method: :post do %>
     <div>

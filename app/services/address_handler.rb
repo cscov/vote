@@ -24,14 +24,14 @@ class AddressHandler
   end
 
   def parse_house_number(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
 
     street_address_arr[0]
   end
 
   def parse_street_name(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
     if street_address_arr.length > 2 &&
       street_address_arr[1].length <= 2 #predirection
@@ -43,7 +43,7 @@ class AddressHandler
   end
 
   def parse_street_type(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
     if street_address_arr.length >= 3
       if street_address_arr[1].length <= 2 && #predirection
@@ -57,7 +57,7 @@ class AddressHandler
   end
 
   def parse_predirection(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
@@ -71,7 +71,7 @@ class AddressHandler
   end
 
   def parse_post_direction(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
@@ -90,7 +90,7 @@ class AddressHandler
 
   # in case "#" is used rather than "Apt"
   def normalize_unit_type(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     change_idx = street_address.index("#")
     street_address.delete!("#")
     street_address.insert(change_idx - 1, " Apt")
@@ -99,7 +99,7 @@ class AddressHandler
   end
 
   def parse_unit_number(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
     denormalized = street_address_arr.any? { |word| word.start_with?("#") }
 
@@ -123,7 +123,7 @@ class AddressHandler
   end
 
   def parse_unit_type(street_address)
-    street_address_error(street_address)
+    # street_address_error(street_address)
     street_address_arr = street_address.split
     denormalized = street_address_arr.any? { |word| word.start_with?("#") }
 
