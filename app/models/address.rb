@@ -24,7 +24,7 @@ class Address < ApplicationRecord
                                                cardinal direction" },
   if: :has_street_postdirection?
 
-  # unit number can't be blank
+  # unit number can't be blank if unit type is included
   validates :unit_number, presence: true, if: :has_unit_type?
 
   # unit type either # or apt
@@ -50,6 +50,8 @@ class Address < ApplicationRecord
   # zip 4 must be 4 char, only numbers
   validates :zip_4, format: { with: /[0-9]{4}/, message: "must be four
   digits" }, if: :has_zip_4?
+
+  # validate :address_must_be_real
 
   def to_s
     # TODO: override the to_s method so that it prints out the address

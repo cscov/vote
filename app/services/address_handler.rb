@@ -1,5 +1,4 @@
-require "byebug" # delete
-
+require "byebug"
 class AddressHandler
   attr_reader :house_number, :street_name, :street_type, :predirection,
               :post_direction, :unit_number, :unit_type, :zip_5, :zip_4,
@@ -40,8 +39,6 @@ class AddressHandler
       street_address_arr[2].capitalize
     elsif street_address_arr.length > 1 && street_address_arr[1].length > 2
       street_address_arr[1].capitalize
-    else
-      nil
     end
   end
 
@@ -51,13 +48,11 @@ class AddressHandler
     if street_address_arr.length >= 3
       if street_address_arr[1].length <= 2 && #predirection
         street_address_arr[3]
-        
+
         street_address_arr[3].capitalize
       else
         street_address_arr[2].capitalize
       end
-    else
-      nil
     end
   end
 
@@ -158,8 +153,39 @@ class AddressHandler
   def parse_zip_4(zip)
     if zip.length > 5
       zip.slice(6, 4)
+    end
+  end
+
+  def parse_city_for_geocoding(city_name)
+    multi_name_city = city_name.split
+    if multi_name_city.length > 1
+      i = 0
+      while i < multi_name_city.length - 1
+        city = multi_name_city[i] + "+"
+      end
+      city += (city + ",")
     else
-      nil
+      city = city_name + ","
+    end
+
+    city
+  end
+
+  def address_must_be_real(city_name, state_name)
+    house_number = @house_number
+    street_name = @street_name
+    street_type = @street_type
+    predirection = @street_predirection if @street_predirection
+    postdirection = @street_postdirection if @street_postdirection
+    city = parse_city_for_geocoding(city_name)
+    state = state_name
+
+    if predirection
+      "https://maps.googleapis.com/maps/api/geocode/json?address=#{house_number}+#{predirection}+#{street_name}+#{street_type},+#{city}+#{state}&key=#{ENV['google_maps_key']}"
+    elsif postdirection
+      "https://maps.googleapis.com/maps/api/geocode/json?address=#{house_number}+#{street_name}+#{street_type}+#{postdirection},+#{city}+#{state}&key=#{ENV['google_maps_key']}"
+    else
+      "https://maps.googleapis.com/maps/api/geocode/json?address=#{house_number}+#{street_name}+#{street_type},+#{city}+#{state}&key=#{ENV['google_maps_key']}"
     end
   end
 end
