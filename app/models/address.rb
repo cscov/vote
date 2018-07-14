@@ -9,8 +9,8 @@ class Address < ApplicationRecord
   letters and numbers are allowed"
 
   # check that street type is at least two chars
-  validates :street_type, format: { with: /[A-Za-z]{2,}/, message: "Must
-  be at least two letters" }
+  validates_format_of :street_type, :with => /[A-Za-z]{2,}/, message: "Must
+  be at least two letters"
 
   # check street predirection is included in directions if present
   validates :street_predirection, inclusion: { in: %w('' N S E W NE SE NW SW),

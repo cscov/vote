@@ -68,6 +68,37 @@ RSpec.describe Address, :type => :model do
           state: 'DC',
           zip_5: '12345'
        )).not_to be_valid
+
+       # check that street type is only letters
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Penn',
+          street_type: 11,
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
+
+       # check that street type is at least two chars
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'A',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
+
+       # check that street_predirection is cardinal
+        expect(Address.new(
+          house_number: 1600,
+          street_predirection: 'EW',
+          street_name: 'Pen',
+          street_type: 'Ave',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
       end
 
 
