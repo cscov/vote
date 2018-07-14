@@ -102,8 +102,8 @@ class AddressHandler
     if street_address_arr[1].length <= 2 && #predirection
       street_address_arr.length > 4
       street_address_arr[5].upcase
-    elsif street_address_arr[3].length <= 2 &&
-          street_address_arr.length > 4 #postdirection
+    elsif street_address_arr.length > 4 &&
+      street_address_arr[3].length <= 2 #postdirection
       street_address_arr[5].upcase
     elsif street_address_arr.length > 4 #no pre or post direction
       street_address_arr[4].upcase
