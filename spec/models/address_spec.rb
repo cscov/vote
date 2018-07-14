@@ -99,6 +99,28 @@ RSpec.describe Address, :type => :model do
           state: 'DC',
           zip_5: '12345'
        )).not_to be_valid
+
+       # check that street_postdirection is cardinal
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          street_postdirection: 'EW',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
+
+       # check that unit_number is present if unit_type is present
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'Pen',
+          street_type: 'Ave',
+          unit_type: 'Apt',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
       end
 
 
