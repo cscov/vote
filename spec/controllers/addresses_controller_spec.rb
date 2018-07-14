@@ -11,7 +11,7 @@ RSpec.describe AddressesController, :type => :controller do
           zip_code: '20500'
         }
       }
-      # need tests for unit type, unit number, county, zip_4
+      # need tests for unit number, county, zip_4
       let(:valid_params_predirection) {
         {
           street_address: '400 S Maple St',
@@ -38,6 +38,16 @@ RSpec.describe AddressesController, :type => :controller do
           zip_code: '94131'
         }
       }
+
+      let(:valid_params_unit_number) {
+        {
+          street_address: '14578 Main St Apt 1B',
+          city: 'San Francisco',
+          state: 'CA',
+          zip_code: '94131'
+        }
+      }
+
       before do
         post 'create', params: valid_params
       end
@@ -82,6 +92,11 @@ RSpec.describe AddressesController, :type => :controller do
       it 'creates a new address model with the unit type normalized and saved' do
         post 'create', params: valid_params_unit_type2
         expect(assigns(:address).unit_type).to eq 'Apt'
+      end
+
+      it 'creates a new address model with the unit number saved' do
+        post 'create', params: valid_params_unit_number
+        expect(assigns(:address).unit_number).to eq '1B'
       end
     end
   end
