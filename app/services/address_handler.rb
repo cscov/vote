@@ -41,21 +41,23 @@ class AddressHandler
     elsif street_address_arr.length > 1 && street_address_arr[1].length > 2
       street_address_arr[1].capitalize
     else
-      ""
+      nil
     end
   end
 
   def parse_street_type(street_address)
     street_address_error(street_address)
     street_address_arr = street_address.split
-    if street_address_arr.length >= 4
-      if street_address_arr[1].length <= 2 #predirection
+    if street_address_arr.length >= 3
+      if street_address_arr[1].length <= 2 && #predirection
+        street_address_arr[3]
+        
         street_address_arr[3].capitalize
       else
         street_address_arr[2].capitalize
       end
     else
-      ""
+      nil
     end
   end
 
@@ -69,7 +71,7 @@ class AddressHandler
       directions.include?(street_address_arr[1].upcase)
       street_address_arr[1].upcase
     else
-      return ""
+      return nil
     end
   end
 
@@ -87,7 +89,7 @@ class AddressHandler
         street_address_arr[3].upcase
       end
     else
-      return ""
+      return nil
     end
   end
 
@@ -121,7 +123,7 @@ class AddressHandler
         street_address_arr[4].upcase
       end
     else
-      return ""
+      return nil
     end
   end
 
@@ -141,12 +143,12 @@ class AddressHandler
         street_address_arr[3].capitalize
       end
     else
-      return ""
+      return nil
     end
   end
 
   def determine_county(zip)
-    ""
+    nil
   end
 
   def parse_zip_5(zip)
@@ -157,7 +159,7 @@ class AddressHandler
     if zip.length > 5
       zip.slice(6, 4)
     else
-      ""
+      nil
     end
   end
 end

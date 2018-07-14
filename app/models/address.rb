@@ -5,8 +5,8 @@ class Address < ApplicationRecord
   validates_numericality_of :house_number
 
   # check that street name is only letters, at least 2 char
-  validates :street_name, format: { with: /[A-Za-z]{2,}/, message: "only
-  letters are allowed" }
+  validates_format_of :street_name, :with => /[a-zA-Z0-9]{2,}/, message: "only
+  letters and numbers are allowed"
 
   # check that street type is at least two chars
   validates :street_type, format: { with: /[A-Za-z]{2,}/, message: "Must

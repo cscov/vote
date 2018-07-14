@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Address, :type => :model do
+  # check that house number is only numbers
   it { should validate_numericality_of(:house_number) }
 
   describe '#new' do
@@ -17,8 +18,6 @@ RSpec.describe Address, :type => :model do
                         )).to be_valid
       end
     end
-# check that house number is only numbers, can't be blank
-# check that street name is only letters, at least 2 char
 # check that street type is at least one char
 # check street predirection is included in directions if present
 # check street post direction is included in directions if present
@@ -40,6 +39,7 @@ RSpec.describe Address, :type => :model do
                           zip_5: 123
                         )).not_to be_valid
 
+        # check that house number can't be blank
         expect(Address.new(
           house_number: "",
           street_name: 'Penn',
@@ -48,7 +48,28 @@ RSpec.describe Address, :type => :model do
           state: 'DC',
           zip_5: '12345'
        )).not_to be_valid
+
+       # check that street name is at least 2 char
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'P',
+          street_type: 'Ave',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
+
+       # check that street name is only letters
+        expect(Address.new(
+          house_number: 1600,
+          street_name: 'P__',
+          street_type: 'Ave',
+          city: 'Washington',
+          state: 'DC',
+          zip_5: '12345'
+       )).not_to be_valid
       end
+
 
     end
 
