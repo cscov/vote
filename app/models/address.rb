@@ -5,35 +5,33 @@ class Address < ApplicationRecord
   validates_numericality_of :house_number
 
   # check that street name is only letters, at least 2 char
-  validates_format_of :street_name, :with => /[a-zA-Z0-9]{2,}/, message: "only
-  letters and numbers are allowed"
+  validates_format_of :street_name, :with => /[a-zA-Z0-9]{2,}/,
+  message: "only letters and numbers are allowed"
 
   # check that street type is at least two chars
-  validates_format_of :street_type, :with => /[A-Za-z]{2,}/, message: "Must
-  be at least two letters"
+  validates_format_of :street_type, :with => /[A-Za-z]{2,}/,
+  message: "must be at least two letters"
 
   # check street predirection is included in directions if present
   validates :street_predirection, inclusion: { in: %w('' N S E W NE SE NW SW),
-                                               message: "must be a valid
-                                               cardinal direction" },
+  message: "must be a valid cardinal direction" },
   if: :has_street_predirection?
 
   # check street post direction is included in directions if present
   validates :street_postdirection, inclusion: { in: %w('' N S E W NE SE NW SW),
-                                                message: "must be a valid
-                                               cardinal direction" },
+  message: "must be a valid cardinal direction" },
   if: :has_street_postdirection?
 
   # unit number can't be blank if unit type is included
   validates :unit_number, presence: true, if: :has_unit_type?
 
   # unit type either # or apt
-  validates :unit_type, inclusion: { in: %w('' # Apt), message: "must be
-    either #, or Apt" }, if: :has_unit_type?
+  validates :unit_type, inclusion: { in: %w('' # Apt),
+    message: "must be either #, or Apt" }, if: :has_unit_type?
 
   # city only letters, at least 2 char
-  validates :city, presence: true, format: { with: /[A-Za-z]{2,}/, message: "Must
-  be at least two letters" }
+  validates :city, presence: true, format: { with: /[A-Za-z]{2,}/,
+  message: "must be at least two letters" }
 
   # state included in states
   validates :state, inclusion: { in: %w(AL AK AZ AR CA CO CT DE DC FL
@@ -41,15 +39,15 @@ class Address < ApplicationRecord
                                         MD MA MI MN MS MO MT NE NV NH
                                         NJ NM NY NC ND OH OK OR PA RI
                                         SC SD TN TX UT VT VA WA WV WI WY),
-                                 message: "Must be a valid US state" }
+                                 message: "must be a valid US state" }
 
   # zip_5 must be five char, only numbers
-  validates :zip_5, format: { with: /[0-9]{5}/, message: "must be at least
-  five digits" }
+  validates :zip_5, format: { with: /[0-9]{5}/,
+  message: "must be at least five digits" }
 
   # zip 4 must be 4 char, only numbers
-  validates :zip_4, format: { with: /[0-9]{4}/, message: "must be four
-  digits" }, if: :has_zip_4?
+  validates :zip_4, format: { with: /[0-9]{4}/,
+  message: "must be four digits" }, if: :has_zip_4?
 
   # validate :address_must_be_real
 

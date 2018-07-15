@@ -42,7 +42,7 @@ class AddressesController < ApplicationController
           zip = nil
         end
         if status == "OK" && zip == full_address.zip_5
-          flash[:success] = "Address is valid!"
+          flash[:notice] = "Address is valid!"
         elsif status == "ZERO_RESULTS" || zip != full_address.zip_5
           flash[:notice] = "The address is invalid, please try again"
         end
