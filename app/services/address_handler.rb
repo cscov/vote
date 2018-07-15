@@ -1,8 +1,7 @@
 require "byebug"
 class AddressHandler
   attr_reader :house_number, :street_name, :street_type, :predirection,
-              :post_direction, :unit_number, :unit_type, :zip_5, :zip_4,
-              :county
+              :post_direction, :unit_number, :unit_type, :zip_5, :zip_4, :county
 
   def initialize(street_address, zip_code)
     @house_number = parse_house_number(street_address)
@@ -14,24 +13,16 @@ class AddressHandler
     @unit_type = parse_unit_type(street_address)
     @zip_5 = parse_zip_5(zip_code)
     @zip_4 = parse_zip_4(zip_code)
-    @county = determine_county(@zip_5)
-  end
-
-  def street_address_error(street_address)
-    if street_address.length < 3
-      raise "Must include house number, street name, and street type"
-    end
+    @county = nil
   end
 
   def parse_house_number(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
 
     street_address_arr[0]
   end
 
   def parse_street_name(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
     if street_address_arr.length > 2 &&
       street_address_arr[1].length <= 2 #predirection
@@ -43,7 +34,6 @@ class AddressHandler
   end
 
   def parse_street_type(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
     if street_address_arr.length >= 3
       if street_address_arr[1].length <= 2 && #predirection
@@ -57,7 +47,6 @@ class AddressHandler
   end
 
   def parse_predirection(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
@@ -71,7 +60,6 @@ class AddressHandler
   end
 
   def parse_post_direction(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
     directions = %w(N S E W NE NW SE SW)
 
@@ -90,7 +78,6 @@ class AddressHandler
 
   # in case "#" is used rather than "Apt"
   def normalize_unit_type(street_address)
-    # street_address_error(street_address)
     change_idx = street_address.index("#")
     street_address.delete!("#")
     street_address.insert(change_idx - 1, " Apt")
@@ -99,7 +86,6 @@ class AddressHandler
   end
 
   def parse_unit_number(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
     denormalized = street_address_arr.any? { |word| word.start_with?("#") }
 
@@ -123,7 +109,6 @@ class AddressHandler
   end
 
   def parse_unit_type(street_address)
-    # street_address_error(street_address)
     street_address_arr = street_address.split
     denormalized = street_address_arr.any? { |word| word.start_with?("#") }
 
@@ -140,10 +125,6 @@ class AddressHandler
     else
       return nil
     end
-  end
-
-  def determine_county(zip)
-    nil
   end
 
   def parse_zip_5(zip)
