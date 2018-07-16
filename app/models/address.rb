@@ -1,4 +1,3 @@
-require 'byebug' #delete
 
 class Address < ApplicationRecord
   # check that house number is only numbers, can't be blank

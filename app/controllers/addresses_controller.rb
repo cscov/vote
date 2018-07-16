@@ -1,4 +1,3 @@
-require 'byebug' # remove
 require_relative('../services/address_handler')
 require 'rest-client'
 
@@ -10,7 +9,6 @@ class AddressesController < ApplicationController
   def new; end
 
   def create
-
     street_address = params[:street_address]
     if street_address.length < 3
       flash[:errors] = "Must include house number, street name, and street type"

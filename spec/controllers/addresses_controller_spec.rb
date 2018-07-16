@@ -11,7 +11,7 @@ RSpec.describe AddressesController, :type => :controller do
           zip_code: '20500'
         }
       }
-      
+
       let(:valid_params_predirection) {
         {
           street_address: '400 S Maple St',

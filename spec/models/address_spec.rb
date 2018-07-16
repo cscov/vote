@@ -18,15 +18,6 @@ RSpec.describe Address, :type => :model do
                         )).to be_valid
       end
     end
-# check that street type is at least one char
-# check street predirection is included in directions if present
-# check street post direction is included in directions if present
-# unit number can't be blank
-# unit type either # or apt
-# city only letters, at least 2 char
-# state included in states
-# zip_5 must be five char, only numbers
-# zip 4 must be 4 char, only numbers
     context 'Given bad address values' do
       it 'cannot create a new address' do
         expect(Address.new(
