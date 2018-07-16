@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'figaro'
+gem 'figaro' # ADDED
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use sqlite3 as the database for Active Record
@@ -46,6 +46,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem "factory_bot", "~> 4.0"
   gem "factory_bot_rails", "~> 4.0"
+  gem 'better_errors' # ADDED
 end
 
 group :development do

@@ -15,7 +15,7 @@
   <%= form_tag '/addresses', method: :post do %>
   <div id="street">
     <%= label_tag :street_address %>
-    <%= text_field_tag :street_address%>
+    <%= text_field_tag :street_address, nil, placeholder: '123 Main St Apt 1A'%>
   </div>
 
   <div id="address2">
