@@ -34,7 +34,8 @@ textarea,
 button {
   font-family: 'Roboto', sans-serif;
   border: 1px solid #eeeeee;
-  padding-top: 10px;
+  padding: 5px;
+  font-size: 1em;
 }
 
 button,
@@ -44,8 +45,8 @@ input[type="submit"] {
   padding: 10px;
   border-radius: 4px;
   color: #fff;
-  text-align: center;
   font-size: 1em;
+  text-align: center;
   }
 
   body {
@@ -82,4 +83,13 @@ input[type="submit"] {
 
   #state, #zip {
     width: 33%;
+  }
+
+  .errors {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #notice li {
+    color: #E10000;
   }

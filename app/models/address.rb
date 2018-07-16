@@ -30,7 +30,7 @@ class Address < ApplicationRecord
     message: "must be either #, or Apt" }, if: :has_unit_type?
 
   # city only letters, at least 2 char
-  validates :city, presence: true, format: { with: /[A-Za-z]{2,}/,
+  validates :city, format: { with: /[A-Za-z]{2,}/,
   message: "must be at least two letters" }
 
   # state included in states

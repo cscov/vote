@@ -1,8 +1,14 @@
 <main>
   <h1>Address Validator</h1>
-  <ul>
+  <ul id="notice">
     <% flash.try(:each) do |name, msg| %>
-    <%= content_tag :li, msg, class: name %>
+    <% if  name == "errors"%>
+      <% msg.try(:each) do |error| %>
+        <%= content_tag :li, error %>
+      <% end %>
+    <% else %>
+      <%= content_tag :li, msg, class: name %>
+    <% end %>
   </ul>
   <% end %>
 
